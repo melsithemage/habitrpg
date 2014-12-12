@@ -6,14 +6,15 @@ script(id='partials/options.settings.html', type="text/ng-template")
     li(ng-class="{ active: $state.includes('options.settings.api') }")
       a(ui-sref='options.settings.api')
         =env.t('API')
-    li(ng-class="{ active: $state.includes('options.settings.export') }")
-      a(ui-sref='options.settings.export')
-        =env.t('dataExport')
-    li(ng-class="{ active: $state.includes('options.settings.coupon') }")
-      a(ui-sref='options.settings.coupon')
-        | Coupon
-    li(ng-class="{ active: $state.includes('options.settings.subscription') }")
-      a(ui-sref='options.settings.subscription')=env.t('subscription')
+    unless env.ORG_PLAN
+      li(ng-class="{ active: $state.includes('options.settings.export') }")
+        a(ui-sref='options.settings.export')
+          =env.t('dataExport')
+      li(ng-class="{ active: $state.includes('options.settings.coupon') }")
+        a(ui-sref='options.settings.coupon')
+          | Coupon
+      li(ng-class="{ active: $state.includes('options.settings.subscription') }")
+        a(ui-sref='options.settings.subscription')=env.t('subscription')
 
   .tab-content
     .tab-pane.active
@@ -66,8 +67,9 @@ script(type='text/ng-template', id='partials/options.settings.settings.html')
                 span.hint(popover-trigger='mouseenter', popover-placement='right', popover=env.t('dailyDueDefaultViewPop'))=env.t('dailyDueDefaultView')
             button.btn.btn-default(ng-click='showTour()', popover-placement='right', popover-trigger='mouseenter', popover=env.t('restartTour'))= env.t('showTour')
             button.btn.btn-default(ng-click='showBailey()', popover-trigger='mouseenter', popover-placement='right', popover=env.t('showBaileyPop'))= env.t('showBailey')
-            button.btn.btn-default(ng-click='openRestoreModal()', popover-trigger='mouseenter', popover-placement='right', popover=env.t('fixValPop'))= env.t('fixVal')
-            button.btn.btn-default(ng-click="openModal('invite-friends', {controller:'GroupsCtrl'})") Invite Friends
+            unless env.ORG_PLAN
+              button.btn.btn-default(ng-click='openRestoreModal()', popover-trigger='mouseenter', popover-placement='right', popover=env.t('fixValPop'))= env.t('fixVal')
+              button.btn.btn-default(ng-click="openModal('invite-friends', {controller:'GroupsCtrl'})") Invite Friends
             button.btn.btn-default(ng-if='user.preferences.disableClasses==true', ng-click='user.ops.changeClass({})', popover-trigger='mouseenter', popover-placement='right', popover=env.t('enableClassPop'))= env.t('enableClass')
             button.btn.btn-default(ng-if='!user.preferences.disableClasses && user.flags.classSelected', ng-click='showClassesTour()', popover-trigger='mouseenter', popover-placement='right', popover=env.t('classTourPop'))= env.t('showClass')
 

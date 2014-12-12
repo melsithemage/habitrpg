@@ -92,12 +92,12 @@ var UserSchema = new Schema({
     txnCount: {type: Number, 'default':0},
     mobileChat: Boolean,
     plan: {
-      planId: String,
-      paymentMethod: String, //enum: ['Paypal','Stripe', 'Gift', '']}
-      customerId: String,
-      dateCreated: Date,
+      planId: {type:String, 'default':'ORG_PLAN'},
+      paymentMethod: {type:String, 'default':'ORG_PLAN'}, //enum: ['Paypal','Stripe', 'Gift', '']}
+      customerId: {type:String, 'default':'ORG_PLAN'},
+      dateCreated: {type:Date, 'default':Date.now},
       dateTerminated: Date,
-      dateUpdated: Date,
+      dateUpdated: {type:Date, 'default':Date.now},
       extraMonths: {type:Number, 'default':0},
       gemsBought: {type: Number, 'default': 0},
       mysteryItems: {type: Array, 'default': []},

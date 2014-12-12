@@ -100,11 +100,6 @@ window.habitrpg = angular.module('habitrpg',
           templateUrl: "partials/options.social.hall.heroes.html",
           controller: 'HallHeroesCtrl'
         })
-        .state('options.social.hall.patrons', {
-          url: '/patrons',
-          templateUrl: "partials/options.social.hall.patrons.html",
-          controller: 'HallPatronsCtrl'
-        })
 
         .state('options.social.guilds', {
           url: '/guilds',
@@ -210,11 +205,19 @@ window.habitrpg = angular.module('habitrpg',
         .state('options.settings.coupon', {
           url: "/coupon",
           templateUrl: "partials/options.settings.coupon.html"
-        })
-        .state('options.settings.subscription', {
+        });
+
+      if (!window.env.ORG_PLAN) {
+        $stateProvider.state('options.settings.subscription', {
           url: "/subscription",
           templateUrl: "partials/options.settings.subscription.html"
         })
+        .state('options.social.hall.patrons', {
+          url: '/patrons',
+          templateUrl: "partials/options.social.hall.patrons.html",
+          controller: 'HallPatronsCtrl'
+        })
+      }
 
       var settings = JSON.parse(localStorage.getItem(STORAGE_SETTINGS_ID));
       if (settings && settings.auth) {

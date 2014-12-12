@@ -52,27 +52,30 @@ nav.toolbar(ng-controller='AuthCtrl', ng-class='{active: isToolbarHidden}')
                 a(ui-sref='options.inventory.timetravelers')=env.t('timeTravelers')
               li
                 a(ui-sref='options.inventory.seasonalshop')=env.t('seasonalShop')
-            ul.toolbar-submenu
-              li
-                a(target="_blank" ng-href='http://data.habitrpg.com?uuid={{user._id}}')=env.t('dataTool')
-              li
-                a(ui-sref='options.settings.export')=env.t('exportData')
+            unless env.ORG_PLAN
+              ul.toolbar-submenu
+                li
+                  a(target="_blank" ng-href='http://data.habitrpg.com?uuid={{user._id}}')=env.t('dataTool')
+                li
+                  a(ui-sref='options.settings.export')=env.t('exportData')
             ul.toolbar-submenu
               li
                 a(target="_blank" href='http://habitrpg.wikia.com/wiki/FAQ')=env.t('FAQ')
               li
-                a(target="_blank" href='https://github.com/HabitRPG/habitrpg/issues/2760')=env.t('reportBug')
+                a(target="_blank" href=env.ORG_PLAN  ? 'mailto:vicky@habitrpg.com?subject=HabitRPG%Bug' : 'https://github.com/HabitRPG/habitrpg/issues/2760')=env.t('reportBug')
               li
-                a(target="_blank" href='https://habitrpg.com/#/options/groups/guilds/5481ccf3-5d2d-48a9-a871-70a7380cee5a')=env.t('askQuestion')
-              li
-                a(target="_blank" href='https://trello.com/c/odmhIqyW/440-read-first-table-of-contents')=env.t('requestAF')
-              li
-                a(target="_blank" href='http://habitrpg.wikia.com/wiki/Contributing_to_HabitRPG')=env.t('contributeToHRPG')
+                a(target="_blank" href=env.ORG_PLAN ? 'mailto:lfangyi@tokyootakumode.com?subject=Question%20About%20HabitRPG' : 'https://habitrpg.com/#/options/groups/guilds/5481ccf3-5d2d-48a9-a871-70a7380cee5a')=env.t('askQuestion')
+              unless env.ORG_PLAN
+                li
+                  a(target="_blank" href='https://trello.com/c/odmhIqyW/440-read-first-table-of-contents')=env.t('requestAF')
+                li
+                  a(target="_blank" href='http://habitrpg.wikia.com/wiki/Contributing_to_HabitRPG')=env.t('contributeToHRPG')
               li
                 a(target="_blank" href='http://habitrpg.wikia.com/wiki/')=env.t('overview')
           ul.toolbar-controls
-            li.toolbar-subscribe-button
-              button(ng-if='!user.purchased.plan.customerId',ui-sref='options.settings.subscription',popover-trigger='mouseenter',popover-placement='bottom',popover-title=env.t('subscriptions'),popover=env.t('subDescription'),popover-append-to-body='true')=env.t('subscribe')
+            unless env.ORG_PLAN
+              li.toolbar-subscribe-button
+                button(ng-if='!user.purchased.plan.customerId',ui-sref='options.settings.subscription',popover-trigger='mouseenter',popover-placement='bottom',popover-title=env.t('subscriptions'),popover=env.t('subDescription'),popover-append-to-body='true')=env.t('subscribe')
             li.toolbar-controls-button
               a(ng-click='expandMenu(null)')=env.t('close')
     ul.toolbar-nav
@@ -136,17 +139,18 @@ nav.toolbar(ng-controller='AuthCtrl', ng-class='{active: isToolbarHidden}')
               a(ui-sref='options.inventory.timetravelers')=env.t('timeTravelers')
             li
               a(ui-sref='options.inventory.seasonalshop')=env.t('seasonalShop')
-      li.toolbar-button-dropdown
-        a(target="_blank" ng-href='http://data.habitrpg.com?uuid={{user._id}}')
-          span=env.t('data')
-        a(ng-click='expandMenu("data")', ng-class='{active: _expandedMenu == "data"}')
-          span  &#9776;
-        div(ng-if='_expandedMenu == "data"')
-          ul.toolbar-submenu(ng-click='expandMenu(null)')
-            li
-              a(target="_blank" ng-href='http://data.habitrpg.com?uuid={{user._id}}')=env.t('dataTool')
-            li
-              a(ui-sref='options.settings.export')=env.t('exportData')
+      unless env.ORG_PLAN
+        li.toolbar-button-dropdown
+          a(target="_blank" ng-href='http://data.habitrpg.com?uuid={{user._id}}')
+            span=env.t('data')
+          a(ng-click='expandMenu("data")', ng-class='{active: _expandedMenu == "data"}')
+            span  &#9776;
+          div(ng-if='_expandedMenu == "data"')
+            ul.toolbar-submenu(ng-click='expandMenu(null)')
+              li
+                a(target="_blank" ng-href='http://data.habitrpg.com?uuid={{user._id}}')=env.t('dataTool')
+              li
+                a(ui-sref='options.settings.export')=env.t('exportData')
       li.toolbar-button-dropdown
         a(target="_blank" href='http://habitrpg.wikia.com/wiki/')
           span=env.t('help')
@@ -157,20 +161,22 @@ nav.toolbar(ng-controller='AuthCtrl', ng-class='{active: isToolbarHidden}')
             li
               a(target="_blank" href='http://habitrpg.wikia.com/wiki/FAQ')=env.t('FAQ')
             li
-              a(target="_blank" href='https://github.com/HabitRPG/habitrpg/issues/2760')=env.t('reportBug')
+              a(target="_blank" href=env.ORG_PLAN  ? 'mailto:vicky@habitrpg.com?subject=HabitRPG%Bug' : 'https://github.com/HabitRPG/habitrpg/issues/2760')=env.t('reportBug')
             li
-              a(target="_blank" href='https://habitrpg.com/#/options/groups/guilds/5481ccf3-5d2d-48a9-a871-70a7380cee5a')=env.t('askQuestion')
-            li
-              a(target="_blank" href='https://trello.com/c/odmhIqyW/440-read-first-table-of-contents')=env.t('requestAF')
-            li
-              a(target="_blank" href='http://habitrpg.wikia.com/wiki/Contributing_to_HabitRPG')=env.t('contributeToHRPG')
+              a(target="_blank" href=env.ORG_PLAN ? 'mailto:lfangyi@tokyootakumode.com?subject=Question%20About%20HabitRPG' : 'https://habitrpg.com/#/options/groups/guilds/5481ccf3-5d2d-48a9-a871-70a7380cee5a')=env.t('askQuestion')
+            unless env.ORG_PLAN
+              li
+                a(target="_blank" href='https://trello.com/c/odmhIqyW/440-read-first-table-of-contents')=env.t('requestAF')
+              li
+                a(target="_blank" href='http://habitrpg.wikia.com/wiki/Contributing_to_HabitRPG')=env.t('contributeToHRPG')
             li
               a(target="_blank" href='http://habitrpg.wikia.com/wiki/')=env.t('overview')
             li(ng-controller='SettingsCtrl')
               a(ng-click='showTour()', popover-placement='right', popover-trigger='mouseenter', popover=env.t('restartTour'))= env.t('showTour')
-    ul.toolbar-subscribe(ng-if='!user.purchased.plan.customerId')
-      li.toolbar-subscribe-button
-        button(ui-sref='options.settings.subscription',popover-trigger='mouseenter',popover-placement='bottom',popover-title=env.t('subscriptions'),popover=env.t('subDescription'),popover-append-to-body='true')=env.t('subscribe')
+    unless env.ORG_PLAN
+      ul.toolbar-subscribe(ng-if='!user.purchased.plan.customerId')
+        li.toolbar-subscribe-button
+          button(ui-sref='options.settings.subscription',popover-trigger='mouseenter',popover-placement='bottom',popover-title=env.t('subscriptions'),popover=env.t('subDescription'),popover-append-to-body='true')=env.t('subscribe')
     ul.toolbar-options  
       li.toolbar-notifs
         a(ng-click='expandMenu("notifs")')
@@ -236,12 +242,13 @@ nav.toolbar(ng-controller='AuthCtrl', ng-class='{active: isToolbarHidden}')
                 a(ui-sref='options.settings.settings')=env.t('site')
               li
                 a(ui-sref='options.settings.api')=env.t('API')
-              li
-                a(ui-sref='options.settings.export')=env.t('export')
-              li
-                a(ui-sref='options.settings.coupon') Coupon
-              li
-                a(ui-sref='options.settings.subscription')=env.t('subscription')
+              unless env.ORG_PLAN
+                li
+                  a(ui-sref='options.settings.export')=env.t('export')
+                li
+                  a(ui-sref='options.settings.coupon') Coupon
+                li
+                  a(ui-sref='options.settings.subscription')=env.t('subscription')
             ul.toolbar-submenu(ng-click='expandMenu(null)')
               li
                 a(href="http://habitrpg.wikia.com/wiki/FAQ", target='_blank')=env.t('FAQ')
@@ -252,7 +259,7 @@ nav.toolbar(ng-controller='AuthCtrl', ng-class='{active: isToolbarHidden}')
               a(ng-click='expandMenu(null)')=env.t('close')
     ul.toolbar-wallet
       li.toolbar-gems
-        a.gem-wallet(ng-click='openModal("buyGems",{track:"Gems > Toolbar"})', popover-trigger='mouseenter', popover-title=env.t('gems'), popover=env.t('gemsWhatFor'), popover-placement='bottom',popover-append-to-body='true')
+        a.gem-wallet(ng-click='openModal("buyGems",{track:"Gems > Toolbar"})', popover-trigger='mouseenter', popover-title=env.ORG_PLAN ? '' : env.t('gems'), popover=env.ORG_PLAN ? env.t('gems') : env.t('gemsWhatFor'), popover-placement='bottom', popover-append-to-body='true')
           //-span.task-action-btn.tile.flush.bright.add-gems-btn ＋
           span.Pet_Currency_Gem2x.Gems
           span.gem-text {{user.balance * 4 | number:0}}

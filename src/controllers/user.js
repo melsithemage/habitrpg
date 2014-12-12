@@ -320,7 +320,7 @@ api.cron = function(req, res, next) {
 
 api['delete'] = function(req, res, next) {
   var plan = res.locals.user.purchased.plan;
-  if (plan && plan.customerId && !plan.dateTerminated)
+  if (plan && plan.customerId && !plan.dateTerminated && !nconf.get('ORG_PLAN'))
     return res.json(400,{err:"You have an active subscription, cancel your plan before deleting your account."});
   res.locals.user.remove(function(err){
     if (err) return next(err);

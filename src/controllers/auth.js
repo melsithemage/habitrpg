@@ -60,6 +60,16 @@ api.authWithUrl = function(req, res, next) {
   })
 }
 
+var limitOrgPlanSignups = function(){
+  var cb = arguments[arguments.length-1];
+  var max = nconf.get("ORG_PLAN");
+  if (!max) return cb(null);
+  User.count(function(err,ct){
+    if (ct>=max) return cb("This organization only allows "+ct+" registered users, speak to your administrator.");
+    return cb(null);
+  });
+}
+
 api.registerUser = function(req, res, next) {
   var confirmPassword = req.body.confirmPassword,
     email = req.body.email,
@@ -69,6 +79,7 @@ api.registerUser = function(req, res, next) {
   if (password !== confirmPassword) return res.json(401, {err: ":password and :confirmPassword don't match"});
   if (!validator.isEmail(email)) return res.json(401, {err: ":email invalid"});
   async.waterfall([
+    limitOrgPlanSignups,
     function(cb) {
       User.findOne({'auth.local.email': email}, cb);
     },
@@ -157,7 +168,10 @@ api.loginSocial = function(req, res, next) {
       q['auth.' + network + '.id'] = results.profile.id;
       User.findOne(q, {_id: 1, apiToken: 1, auth: 1}, cb);
     }],
-    register: ['profile', 'user', function (cb, results) {
+    limit: ['user', function(cb, results){
+      if (!results.user) return limitOrgPlanSignups(cb);
+    }],
+    register: ['limit', function (cb, results) {
       if (results.user) return cb(null, results.user);
       // Create new user
       var prof = results.profile;

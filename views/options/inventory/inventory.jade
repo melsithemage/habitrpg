@@ -65,7 +65,10 @@ script(type='text/ng-template', id='partials/options.inventory.timetravelers.htm
           .arrow
           h3.popover-title!=env.t('timeTravelersTitleNoSub', {linkStartTyler: "<a href='https://github.com/lefnire' target='_blank'>", linkStartVicky: "<a href='http://blog.habitrpg.com/who' target='_blank'>", linkEnd: "</a>"})
           .popover-content
-            p!=env.t('timeTravelersPopoverNoSub', {linkStart: "<a href='https://habitrpg.com/#/options/settings/subscription' target='_blank'>", linkEnd: "</a>"})
+            if env.ORG_PLAN
+              p!=env.t('timeTravelersPopoverNoSub', {linkStart: "<a href='https://habitrpg.com/#/options/settings/subscription' target='_blank'>", linkEnd: "</a>"})
+            else
+              p You'll need a Mystic Hourglass to summon the mysterious Time Travelers! Players earn one Mystic Hourglass for every three months of participation. Come back when you have a Mystic Hourglass, and the Time Travelers will fetch you a Subscriber Item Set from the past.... or maybe even the future.
     .row.stable(ng-if='user.purchased.plan.consecutive.trinkets > 0')
       .col-md-2
         .npc_timetravelers_active

@@ -3,9 +3,10 @@ script(type='text/ng-template', id='partials/options.social.hall.html')
     li(ng-class="{ active: $state.includes('options.social.hall.heroes') }")
       a(ui-sref='options.social.hall.heroes')
         =env.t('hallHeroes')
-    li(ng-class="{ active: $state.includes('options.social.hall.patrons') }")
-      a(ui-sref='options.social.hall.patrons')
-        =env.t('hallPatrons')
+    unless env.ORG_PLAN
+      li(ng-class="{ active: $state.includes('options.social.hall.patrons') }")
+        a(ui-sref='options.social.hall.patrons')
+          =env.t('hallPatrons')
 
   .tab-content
     .tab-pane.active
