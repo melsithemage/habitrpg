@@ -105,6 +105,12 @@ habitrpg.controller("GroupsCtrl", ['$scope', '$rootScope', 'Shared', 'Groups', '
           $rootScope.openModal('private-message',{controller:'MemberModalCtrl'});
         });
       }
+
+      $scope.flatChalTasks = function(chal){
+        return _.reduce(chal.habits.concat(chal.dailys).concat(chal.todos).concat(chal.rewards), function(m,v,k){
+          m[v.id] = v;return m;
+        }, {});
+      }
     }
   ])
 
@@ -319,10 +325,9 @@ habitrpg.controller("GroupsCtrl", ['$scope', '$rootScope', 'Shared', 'Groups', '
 
       $scope.type = 'guild';
       $scope.text = window.env.t('guild');
-      var newGroup = function(){
-        return new Groups.Group({type:'guild', privacy:'private'});
-      }
-      $scope.newGroup = newGroup()
+      $scope.newGroup = new Groups.Group({type:'guild', privacy:'private'});
+      if (window.env.ORG_PLAN)
+        $scope.newGroup.moderation = {pushChallenges:true, approval:true};
       $scope.create = function(group){
         if (User.user.balance < 1)
           return $rootScope.openModal('buyGems', {track:"Gems > Create Group"});
@@ -403,6 +408,8 @@ habitrpg.controller("GroupsCtrl", ['$scope', '$rootScope', 'Shared', 'Groups', '
       $scope.text = window.env.t('party');
       $scope.group = $rootScope.party = Groups.party();
       $scope.newGroup = new Groups.Group({type:'party'});
+      if (window.env.ORG_PLAN)
+        $scope.newGroup.moderation = {pushChallenges:true, approval:true};
 
       Groups.seenMessage($scope.group._id);
 

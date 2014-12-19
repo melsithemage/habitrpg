@@ -25,8 +25,12 @@ var TaskSchema = {
   challenge: {
     id: {type: 'String', ref:'Challenge'},
     broken: String, // CHALLENGE_DELETED, TASK_DELETED, UNSUBSCRIBED, CHALLENGE_CLOSED
-    winner: String // user.profile.name
-    // group: {type: 'Strign', ref: 'Group'} // if we restore this, rename `id` above to `challenge`
+    winner: String, // user.profile.name
+    group: {type: 'String', ref: 'Group'},
+    approval: {
+      enabled: Boolean,
+      count: Number
+    }
   }
 };
 

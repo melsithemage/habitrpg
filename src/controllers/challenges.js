@@ -188,6 +188,11 @@ api.create = function(req, res, next){
       req.body.leader = user._id;
       req.body.official = user.contributor.admin && req.body.official;
       var chal = new Challenge(req.body); // FIXME sanitize
+      _.each(chal.tasks, function(task){
+        task.challenge = {id:chal._id, group: group._id};
+        if (group.moderation.approval)
+          task.challenge.approval = {enabled:true, count:0};
+      })
       chal.members.push(user._id);
       chal.save(cb);
     }],

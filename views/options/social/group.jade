@@ -114,6 +114,17 @@ a.pull-right.gem-wallet(ng-if='group.type!="party"', popover-trigger='mouseenter
               h3.popover-title {{Members.members[group.leader].profile.name}}
               .popover-content
                 markdown(text='group.leaderMessage')
+
+      table.table.table-striped(ng-show='user._id == group.leader', ng-repeat='chal in group.challenges')
+        tr(ng-repeat='approve in chal.approval')
+          td
+            button.btn.btn-xs(ng-click='approveTask(approve)')
+              .glyphicon.glyphicon-ok
+            button.btn.btn-xs(ng-click='denyTask(approve)')
+              .glyphicon.glyphicon-remove
+          td {{::Members.members[approve.user].profile.name}}
+          td {{::flatChalTasks(chal)[approve.task].text}}
+
       div(ng-controller='ChatCtrl')
         h3=env.t('chat')
         include ./chat-box

@@ -40,7 +40,7 @@ var populateQuery = function(type, q){
   q.populate({
     path: 'challenges',
     match: (type=='habitrpg') ? {_id:{$ne:'95533e05-1ff9-4e46-970b-d77219f199e9'}} : undefined, // remove the Spread the Word Challenge for now, will revisit when we fix the closing-challenge bug
-    select: challengeFields,
+    select: nconf.get('ORG_PLAN') /*&& isAdmin*/ ? '_id name habits dailys todos rewards approval' : challengeFields,
     options: {sort: {official: -1, timestamp: -1}}
   });
   return q;
@@ -144,6 +144,8 @@ api.create = function(req, res, next) {
   var user = res.locals.user;
   group.members = [user._id];
   group.leader = user._id;
+  if (nconf.get('ORG_PLAN'))
+    group.moderation = req.body.moderation;
 
   if(group.type === 'guild'){
     if(user.balance < 1) return res.json(401, {err: 'Not enough gems!'});

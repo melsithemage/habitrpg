@@ -24,5 +24,20 @@ form.col-md-12.form-horizontal(ng-submit='create(newGroup)')
       label
         input(type='checkbox', ng-model='newGroup.leaderOnly.challenges')
         | Only group leader can create challenges
+
+
+
+  accordion(close-others=true)
+    accordion-group(heading='Moderation', is-open=false)
+      .form-group
+        .checkbox
+          label
+            input(type='checkbox', ng-model='newGroup.moderation.pushChallenges', value='#{!!env.ORG_PLAN}')
+            | New users auto-join challenges
+        .checkbox
+          label
+            input(type='checkbox', ng-model='newGroup.moderation.approval', value='#{!!env.ORG_PLAN}')
+            | Task-submission must be approved
+
   .form-group(ng-show='type=="party"')
     input.btn.btn-default.form-control(type='submit', value=env.t('create'))

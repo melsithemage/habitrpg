@@ -103,6 +103,17 @@ api.score = function(req, res, next) {
     if (task.type === 'daily' || task.type === 'todo')
       task.completed = direction === 'up';
   }
+
+  if (task.challenge.approval.enabled) {
+    return Challenge.update(
+      {_id:task.challenge.id},
+      {$push: {approval: {user:user._id, task:task.id} }}
+    ).exec(function(err){
+      if (err) return next(err);
+      res.json({message: 'Approval request sent.'});
+    })
+  }
+
   var delta = user.ops.score({params:{id:task.id, direction:direction}, language: req.language});
 
   user.save(function(err,saved){

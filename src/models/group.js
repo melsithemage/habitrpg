@@ -30,6 +30,10 @@ var GroupSchema = new Schema({
     challenges: {type:Boolean, 'default':false},
     //invites: {type:Boolean, 'default':false}
   },
+  moderation: {
+    pushChallenges: Boolean,
+    approval: Boolean
+  },
   memberCount: {type: Number, 'default': 0},
   challengeCount: {type: Number, 'default': 0},
   balance: Number,

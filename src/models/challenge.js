@@ -19,7 +19,8 @@ var ChallengeSchema = new Schema({
   timestamp: {type: Date, 'default': Date.now},
   members: [{type: String, ref: 'User'}],
   memberCount: {type: Number, 'default': 0},
-  prize: {type: Number, 'default': 0}
+  prize: {type: Number, 'default': 0},
+  approval: [ {user: String, task: String} ]
 });
 
 ChallengeSchema.virtual('tasks').get(function () {
@@ -41,7 +42,7 @@ ChallengeSchema.methods.toJSON = function(){
 function syncableAttrs(task) {
   var t = (task.toObject) ? task.toObject() : task; // lodash doesn't seem to like _.omit on EmbeddedDocument
   // only sync/compare important attrs
-  var omitAttrs = 'challenge history tags completed streak notes'.split(' ');
+  var omitAttrs = 'history tags completed streak notes'.split(' '); // FIXME removed 'challenge' from array (for org-plans), make sure that didn't break anything
   if (t.type != 'reward') omitAttrs.push('value');
   return _.omit(t, omitAttrs);
 }
